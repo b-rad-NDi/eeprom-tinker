@@ -12,4 +12,4 @@ eeprom-tinker.o : eeprom-tinker.c linux-i2c.c
 	$(CC) -c eeprom-tinker.c
 
 clean :
-	rm eeprom-tinker eeprom-tinker.o linux-i2c.o
+	rm -f eeprom-tinker eeprom-tinker.o linux-i2c.o
