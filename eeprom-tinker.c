@@ -29,8 +29,8 @@
 
 struct em28xx_eeprom {
 	unsigned char id[4];		/* 1a eb 67 95 */
-	unsigned short vendor_ID;
-	unsigned short product_ID;
+	unsigned char vendor_ID[2];
+	unsigned char product_ID[2];
 	unsigned char chip_conf[2];
 	unsigned char board_conf[2]; /* tuner_config | board config */
 
@@ -208,8 +208,12 @@ int eeprom_validate(int do_update, unsigned char *eeprom_data, struct tveeprom *
 	unsigned int bPIDChangeAllowed = 0, bChangeAllowed = 0, bIsDefBulk = 0;
 	unsigned int bIsCurBulk = 0, bModelNotFound = 0;
 	char sModelName[64] = { 0 };
+	unsigned short vendor_ID = (tst_eeprom->vendor_ID[1] << 8) |
+					tst_eeprom->vendor_ID[0];
+	unsigned short product_ID = (tst_eeprom->product_ID[1] << 8) |
+					tst_eeprom->product_ID[0];
 
-	bIsDefBulk = (tst_eeprom->product_ID & 0x8000) != 0;
+	bIsDefBulk = (tst_eeprom->product_ID[1] & 0x80) != 0;
 	bIsCurBulk = (tst_eeprom->BoardConfigEx & BOARD_CFG2_BULK_TS) != 0;
 
 	// Get the default Bulk/ISO flag based on known Hauppauge Model numbers
@@ -245,8 +249,8 @@ int eeprom_validate(int do_update, unsigned char *eeprom_data, struct tveeprom *
 
 	strcpy(sModelName, "Unknown Device, contact support");
 
-	if (tst_eeprom->vendor_ID == 0x2040) { // Hauppauge
-		switch (tst_eeprom->product_ID & 0x7fff) {
+	if (vendor_ID == 0x2040) { // Hauppauge
+		switch (product_ID & 0x7fff) {
 		case 0x0264:
 			strcpy(sModelName, "SoloHD DVB");
 			bChangeAllowed = true;
@@ -295,8 +299,8 @@ int eeprom_validate(int do_update, unsigned char *eeprom_data, struct tveeprom *
 			bModelNotFound = 1;
 			break;
 		}	
-	} else if (tst_eeprom->vendor_ID == 02013) { // PCTV
-		switch (tst_eeprom->product_ID & 0x7fff) {
+	} else if (vendor_ID == 02013) { // PCTV
+		switch (product_ID & 0x7fff) {
 		case 0x0265:
 			strcpy(sModelName, "PCTV 2920e (204009)");
 			bChangeAllowed = true;
@@ -360,10 +364,10 @@ int eeprom_validate(int do_update, unsigned char *eeprom_data, struct tveeprom *
 		 * Bulk/ISO state.  Changing the PID has implications
 		 * for processing of product returns.
 		 */
-		if (tst_eeprom->vendor_ID == 0x2040) { // Hauppauge
-			tst_eeprom->product_ID = (tst_eeprom->product_ID & 0x7FFF);
+		if (vendor_ID == 0x2040) { // Hauppauge
+			tst_eeprom->product_ID[1] = (tst_eeprom->product_ID[1] & 0x7F);
 			if (bIsCurBulk) {
-				tst_eeprom->product_ID |= 0x8000;
+				tst_eeprom->product_ID[1] |= 0x80;
 			}
 		}
 	} else {
@@ -377,9 +381,13 @@ int eeprom_validate(int do_update, unsigned char *eeprom_data, struct tveeprom *
 /********************************************************************************************************/
 void device_info(struct em28xx_eeprom *tst_eeprom, struct tveeprom *eeprom_tv)
 {
+	unsigned short vendor_ID = (tst_eeprom->vendor_ID[1]  << 8) |
+					tst_eeprom->vendor_ID[0];
+	unsigned short product_ID = (tst_eeprom->product_ID[1] << 8) |
+					tst_eeprom->product_ID[0];
+
 	printf("\n");
-	printf("vid:pid       %04x:%04x\n", tst_eeprom->vendor_ID,
-		tst_eeprom->product_ID);
+	printf("vid:pid       %04x:%04x\n", vendor_ID, product_ID);
 
 	printf("Board Config: %02x  (%s)\n", tst_eeprom->BoardConfigEx,
 		(tst_eeprom->BoardConfigEx & BOARD_CFG2_BULK_TS) ? "bulk" : "isoc");
