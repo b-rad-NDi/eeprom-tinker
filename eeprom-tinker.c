@@ -218,17 +218,16 @@ int eeprom_validate(int do_update, unsigned char *eeprom_data, struct tveeprom *
 
 	// Get the default Bulk/ISO flag based on known Hauppauge Model numbers
 	switch (eeprom_tv->model) {
-	case 203029: // soloHD DVB 
-	case 203039: // soloHD DVB 
+	case 203029: // soloHD DVB
+	case 203039: // soloHD DVB
 		bIsDefBulk = false;
 		bPIDChangeAllowed = true;
 		break;
-	case 203129: 
-	case 203139: 
+	case 203129:
+	case 203139:
 		bIsDefBulk = true;
 		bPIDChangeAllowed = true;
 		break;
-	
 	case 204101: //dualHD ATSC
 		bIsDefBulk = false;
 		bPIDChangeAllowed = true;
@@ -469,7 +468,7 @@ int main (int argc, char **argv)
 		fprintf (stderr, "Option -b is required, quitting\n");
 		return 1;
 	}
-	
+
 	hwconf_offset = eeprom_check(vflag, i2c_bus_no, &eeprom_data[0]);
 
 	if (hwconf_offset > 0) {
