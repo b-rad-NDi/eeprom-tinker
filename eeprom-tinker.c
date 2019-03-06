@@ -100,7 +100,7 @@ int eeprom_check(int verbose, unsigned int bus_no, unsigned char *eeprom_data)
 
 		if (verbose != 0) {
 			printf("-----------------------------------------------------\n");
-			printf("                  Full EEPROM Dump\n");
+			printf("           Full EEPROM Dump @ offset 0x%02X\n", hwconf_start);
 
 			for (i = 0; i < 16; i++) {
 				printf("%03x0: ", i);
