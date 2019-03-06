@@ -114,7 +114,7 @@ int i2cset_impl(unsigned char        bus,
 	int res = 0, i2cbus, address, size, file;
 	int value = 0, daddress;
 	char filename[20];
-	int len = 0;
+//	int len = 0;
 
 	i2cbus = bus;
 	address = device_adr;
@@ -129,7 +129,7 @@ int i2cset_impl(unsigned char        bus,
 		break;
 	default:
 		size = I2C_SMBUS_I2C_BLOCK_DATA;
-		len = write_size - 1;
+//		len = write_size - 1;
 		value = p_write_buf[1];
 		break;
 	}
