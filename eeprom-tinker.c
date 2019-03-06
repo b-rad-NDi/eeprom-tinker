@@ -27,7 +27,7 @@
 #define BOARD_CFG2_BULK_AUDIO       0x02    // Audio pipe in Bulk mode
 #define BOARD_CFG2_BULK_TS          0x04    // TS    pipe in Bulk mode
 
-struct em28xx_eeprom {
+struct __attribute__((__packed__)) em28xx_eeprom {
 	unsigned char id[4];		/* 1a eb 67 95 */
 	unsigned char vendor_ID[2];
 	unsigned char product_ID[2];
