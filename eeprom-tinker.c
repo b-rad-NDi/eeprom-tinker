@@ -441,6 +441,8 @@ void print_help()
 	printf("eeprom-tinker options\n");
 	printf("\t-b\tset i2c bus number (dangerous! be sure this is correct!)\n");
 	printf("\t-i\tprint device info\n");
+	printf("\t-m {pid|bulk|both}\tfix product id, fix bulk flag, or fix both\n");
+	printf("\t-t\ttest mode, only output equivalent operation\n");
 	printf("\t-v\tverbose\n");
 	printf("\t-h\tdisplay help\n");
 }
@@ -452,8 +454,8 @@ int main (int argc, char **argv)
 	struct em28xx_eeprom *tst_eeprom = (struct em28xx_eeprom*)&eeprom_data[0];
 	struct tveeprom eeprom_tv = { 0 };
 	char i2c_bus_string[128] = { 0 };
-	int hwconf_offset = 0;
-	int vflag = 0, iflag = 0, c = 0;
+	int hwconf_offset = 0, retval = 0;
+	int vflag = 0, iflag = 0, c = 0, mflag = 0, bulk_flag = 0, pid_flag = 0, testonly_flag = 0;
 	unsigned long i2c_bus_no = ULONG_MAX; 
 
 	printf("EEPROM Tinker\n\tWelcome to the danger zone\n");
@@ -464,7 +466,7 @@ int main (int argc, char **argv)
 		return 1;
 	}
 
-	while ((c = getopt (argc, argv, "vihb:")) != -1) {
+	while ((c = getopt (argc, argv, "vithm:b:")) != -1) {
 		switch (c)
 		{
 		case 'v':
@@ -480,6 +482,24 @@ int main (int argc, char **argv)
 				printf("Invalid i2c bus number %lu\n", i2c_bus_no);
 				return 1;
 			}
+			break;
+		case 'm':
+			if (strncasecmp(optarg, "pid", 3) == 0)
+				pid_flag = 1;
+			else if (strncasecmp(optarg, "bulk", 4) == 0)
+				bulk_flag = 1;
+			else if (strncasecmp(optarg, "both", 4) == 0) {
+				pid_flag = 1;
+				bulk_flag = 1;
+			} else {
+				printf("Bad argument for -m\n\n");
+				print_help();
+				return 1;
+			}
+			mflag = 1;
+			break;
+		case 't':
+			testonly_flag = 1;
 			break;
 		case 'h':
 			print_help();
