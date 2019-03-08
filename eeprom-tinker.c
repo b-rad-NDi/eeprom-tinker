@@ -453,8 +453,8 @@ void print_help()
 	printf("eeprom-tinker options\n");
 	printf("\t-b\tset i2c bus number (dangerous! be sure this is correct!)\n");
 	printf("\t-i\tprint device info\n");
-	printf("\t-m {pid|bulk|both}\tfix product id, fix bulk flag, or fix both\n");
-	printf("\t-t\ttest mode, only output equivalent operation\n");
+	printf("\t-m\t{pid|bulk|both}  fix product id, fix bulk flag, or fix both\n");
+	printf("\t-t\ttest mode, only output equivalent modification operation\n");
 	printf("\t-v\tverbose\n");
 	printf("\t-h\tdisplay help\n");
 }
