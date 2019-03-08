@@ -27,6 +27,9 @@
 #define BOARD_CFG2_BULK_AUDIO       0x02    // Audio pipe in Bulk mode
 #define BOARD_CFG2_BULK_TS          0x04    // TS    pipe in Bulk mode
 
+#define BULK_CONVERSION_POSSIBLE    0x04
+#define PID_MODIFICATION_POSSIBLE   0x08
+
 struct __attribute__((__packed__)) em28xx_eeprom {
 	unsigned char id[4];		/* 1a eb 67 95 */
 	unsigned char vendor_ID[2];
@@ -457,6 +460,7 @@ int main (int argc, char **argv)
 	int hwconf_offset = 0, retval = 0;
 	int vflag = 0, iflag = 0, c = 0, mflag = 0, bulk_flag = 0, pid_flag = 0, testonly_flag = 0;
 	unsigned long i2c_bus_no = ULONG_MAX; 
+	unsigned char pid_offset = 0, boardconf_offset = 0;
 
 	printf("EEPROM Tinker\n\tWelcome to the danger zone\n");
 	printf("\tBe careful, this utility can harm your system if misused!\n\n");
@@ -529,11 +533,34 @@ int main (int argc, char **argv)
 		}
 
 		eeprom_tv.byte_offset_start = hwconf_offset;
+		eeprom_tv.i2c_bus_no = i2c_bus_no;
 
 		if (iflag)
 			device_info(tst_eeprom, &eeprom_tv);
 
-		eeprom_validate(0, &eeprom_data[0], &eeprom_tv);
+		retval = eeprom_validate(0, &eeprom_data[0], &eeprom_tv);
+
+		if (mflag && retval > 0) {
+			if (bulk_flag && (retval & BULK_CONVERSION_POSSIBLE)) {
+				boardconf_offset = offsetof(struct em28xx_eeprom, BoardConfigEx);
+				printf("\n");
+				printf("Update Board Config:\n");
+				eeprom_update(1, eeprom_tv.i2c_bus_no,
+						eeprom_tv.byte_offset_start + boardconf_offset,
+						tst_eeprom->BoardConfigEx);
+			}
+
+			usleep(50 * 1000);
+
+			if (pid_flag && (retval & PID_MODIFICATION_POSSIBLE)) {
+				pid_offset = offsetof(struct em28xx_eeprom, product_ID[1]);
+				printf("\n");
+				printf("Update Product ID:\n");
+				eeprom_update(1, eeprom_tv.i2c_bus_no,
+						eeprom_tv.byte_offset_start + pid_offset,
+						tst_eeprom->product_ID[1]);
+			}
+		}
 	} else {
 		return 1;
 	}
