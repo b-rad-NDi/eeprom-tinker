@@ -114,7 +114,7 @@ int i2cset_impl(unsigned char        bus,
 	int res = 0, i2cbus, address, size, file;
 	int value = 0, daddress;
 	char filename[20];
-//	int len = 0;
+	int len = 0;
 
 	i2cbus = bus;
 	address = device_adr;
@@ -129,7 +129,7 @@ int i2cset_impl(unsigned char        bus,
 		break;
 	default:
 		size = I2C_SMBUS_I2C_BLOCK_DATA;
-//		len = write_size - 1;
+		len = write_size - 1;
 		value = p_write_buf[1];
 		break;
 	}
@@ -150,10 +150,8 @@ int i2cset_impl(unsigned char        bus,
 		res = i2c_smbus_write_byte_data(file, daddress, value);
 		break;
 	case I2C_SMBUS_I2C_BLOCK_DATA:
-#if 0
 //		printf("%s() WRITING I2C_SMBUS_I2C_BLOCK_DATA\n", __func__);
 		res = i2c_smbus_write_i2c_block_data(file, daddress, len, p_write_buf + 1);
-#endif
 		break;
 	default:
 		printf("Invalid i2c transaction\n");
