@@ -233,8 +233,8 @@ int eeprom_decode(unsigned char *eeprom_data, struct tveeprom *eeprom_tv)
 int eeprom_validate(int do_update, unsigned char *eeprom_data, struct tveeprom *eeprom_tv)
 {
 	struct em28xx_eeprom *tst_eeprom = (struct em28xx_eeprom*)&eeprom_data[0];
-	unsigned int bPIDChangeAllowed = 0, bChangeAllowed = 0, bIsDefBulk = 0;
-	unsigned int bIsCurBulk = 0, bModelNotFound = 0;
+	unsigned int bPIDChangeAllowed = 0, bChangeAllowed = 0, bIsDefBulk = 0, bIsOrigBulk = 0;
+	unsigned int bIsCurBulk = 0, bModelNotFound = 0, retval = 0;
 	char sModelName[64] = { 0 };
 	unsigned short vendor_ID = (tst_eeprom->vendor_ID[1] << 8) |
 					tst_eeprom->vendor_ID[0];
@@ -243,6 +243,9 @@ int eeprom_validate(int do_update, unsigned char *eeprom_data, struct tveeprom *
 
 	bIsDefBulk = (tst_eeprom->product_ID[1] & 0x80) != 0;
 	bIsCurBulk = (tst_eeprom->BoardConfigEx & BOARD_CFG2_BULK_TS) != 0;
+	bIsOrigBulk = bIsDefBulk;
+
+//	printf("\nbIsDefBulk = %d   |   bIsOrigBulk = %d\n\n", bIsDefBulk, bIsOrigBulk);
 
 	// Get the default Bulk/ISO flag based on known Hauppauge Model numbers
 	switch (eeprom_tv->model) {
