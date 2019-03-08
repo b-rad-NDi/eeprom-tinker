@@ -388,22 +388,26 @@ int eeprom_validate(int do_update, unsigned char *eeprom_data, struct tveeprom *
 		 bPIDChangeAllowed = false;
 	}
 
-	if (bIsCurBulk) {
-		tst_eeprom->BoardConfigEx |= BOARD_CFG2_BULK_TS;
-	} else {
-		tst_eeprom->BoardConfigEx &= ~BOARD_CFG2_BULK_TS;
-	}
+	if (bChangeAllowed) {
+		printf("Change allowed\n");
 
-	if (bPIDChangeAllowed) {
-		/* NOTE: we only change the PID value on certain known
-		 * HCW Models where we can easily restore the original
-		 * Bulk/ISO state.  Changing the PID has implications
-		 * for processing of product returns.
-		 */
-		if (vendor_ID == 0x2040) { // Hauppauge
-			tst_eeprom->product_ID[1] = (tst_eeprom->product_ID[1] & 0x7F);
-			if (bIsCurBulk) {
-				tst_eeprom->product_ID[1] |= 0x80;
+		if (!bIsOrigBulk && !bIsCurBulk) {
+			tst_eeprom->BoardConfigEx |= BOARD_CFG2_BULK_TS;
+			retval |= BULK_CONVERSION_POSSIBLE;
+			bIsCurBulk = true;
+		}
+
+		if (bPIDChangeAllowed) {
+			/* NOTE: we only change the PID value on certain known
+			 * HCW Models where we can easily restore the original
+			 * Bulk/ISO state.  Changing the PID has implications
+			 * for processing of product returns.
+			 */
+			if (vendor_ID == 0x2040 && !bIsOrigBulk) { // Hauppauge
+				if (bIsCurBulk) {
+					tst_eeprom->product_ID[1] |= 0x80;
+					retval |= PID_MODIFICATION_POSSIBLE;
+				}
 			}
 		}
 	} else {
