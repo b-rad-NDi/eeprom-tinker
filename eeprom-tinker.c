@@ -254,7 +254,7 @@ int eeprom_validate(int do_update, unsigned char *eeprom_data, struct tveeprom *
 	// Get the default Bulk/ISO flag based on known Hauppauge Model numbers
 	switch (eeprom_tv->model) {
 	case 203029: // soloHD DVB
-	case 203039: // soloHD DVB
+	case 203039:
 		bIsDefBulk = false;
 		bPIDChangeAllowed = true;
 		break;
