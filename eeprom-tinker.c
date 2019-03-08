@@ -578,6 +578,9 @@ int main (int argc, char **argv)
 				else
 					return 1;
 			}
+
+			if (testonly_flag)
+				printf("\nOnly execute the above commands if you are absolutely confident\n");
 		}
 	} else {
 		return 1;
