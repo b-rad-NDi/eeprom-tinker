@@ -361,15 +361,17 @@ int eeprom_validate(int do_update, unsigned char *eeprom_data, struct tveeprom *
 		}
 	} else {
 		printf("Shyzer...%s\n", sModelName);
-		return 1;
+		return -1;
 	}
+
+//	printf("bIsDefBulk = %d   |   bIsOrigBulk = %d   |   bIsCurBulk = %d\n\n", bIsDefBulk, bIsOrigBulk, bIsCurBulk);
 
 	printf("\nFound: %s mode %s  ( %d )\n", bIsDefBulk ? "bulk" : "isoc",
 		sModelName, eeprom_tv->model);
 
 	if (bModelNotFound) {
 		printf("VID:PID unknown, quitting...\n\n");
-		return 1;
+		return -1;
 	}
 
 	if (bIsOrigBulk) {
@@ -406,10 +408,12 @@ int eeprom_validate(int do_update, unsigned char *eeprom_data, struct tveeprom *
 		}
 	} else {
 		printf("Device modification not allowed\n");
-		return 1;
+		return -1;
 	}
 
-	return 0;
+	printf("\n");
+
+	return retval;
 }
 
 /********************************************************************************************************/
