@@ -368,7 +368,7 @@ int eeprom_validate(int do_update, unsigned char *eeprom_data, struct tveeprom *
 		return 1;
 	}
 
-	if (bIsCurBulk) {
+	if (bIsOrigBulk) {
 		printf("Device is already in bulk mode\n");
 	} else {
 		printf("Conversion to bulk mode possible: %s\n",
