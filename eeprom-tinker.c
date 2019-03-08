@@ -120,6 +120,33 @@ int eeprom_check(int verbose, unsigned int bus_no, unsigned char *eeprom_data)
 }
 
 /********************************************************************************************************/
+/* Updates a single byte in an eeprom
+ * returns <= 0 on error
+ */
+int eeprom_update(unsigned int test_flag,
+		  unsigned int bus_no,
+		  unsigned char w_offset,
+		  unsigned char w_value)
+{
+	unsigned char i2c_addr = 0xa0 >> 1;
+	unsigned char i2c_data[3] = { 0 };
+
+	i2c_data[1] = w_offset;
+	i2c_data[2] = w_value;
+
+	if (test_flag) {
+		printf("Equivalent operation:\n");
+		printf("i2cset -y %d 0x%02x 0x%02x 0x%02x 0x%02x i\n\n", bus_no,
+			i2c_addr, i2c_data[0], i2c_data[1], i2c_data[2]);
+	} else {
+		if (i2cset_impl(bus_no, i2c_addr, 3, i2c_data) != 0)
+			return -1;
+	}
+
+	return 0;
+}
+
+/********************************************************************************************************/
 /* Peruses eeprom looking for "tags" containing serial/MAC/model/revision
  */
 int eeprom_decode(unsigned char *eeprom_data, struct tveeprom *eeprom_tv)
