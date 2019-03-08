@@ -184,8 +184,6 @@ int i2cget_impl(unsigned char  bus,
 //		printf("%s() I2C_SMBUS_BYTE\n", __func__);
 		size = I2C_SMBUS_BYTE;
 		break;
-	case 's': size = I2C_SMBUS_BLOCK_DATA; break;
-	case 'i': size = I2C_SMBUS_I2C_BLOCK_DATA; break;
 	default:
 //		printf("%s() I2C_SMBUS_I2C_BLOCK_DATA\n", __func__);
 		size = I2C_SMBUS_I2C_BLOCK_DATA;
