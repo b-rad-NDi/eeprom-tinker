@@ -46,12 +46,13 @@ struct __attribute__((__packed__)) em28xx_eeprom {
 };
 
 struct tveeprom {
+	unsigned int i2c_bus_no;
 	unsigned int byte_offset_start;
-        unsigned int has_MAC_address;
-        unsigned int model;
-        unsigned int revision;
-        unsigned int serial_number;
-        unsigned char MAC_address[6];
+	unsigned int has_MAC_address;
+	unsigned int model;
+	unsigned int revision;
+	unsigned int serial_number;
+	unsigned char MAC_address[6];
 };
 
 /********************************************************************************************************/
