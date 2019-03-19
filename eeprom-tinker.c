@@ -8,7 +8,7 @@
  *  - drivers/media/common/tveeprom.c
  *
  *
- * Copyright: 2018 Brad Love (Next Dimension Innovations) brad@nextdimension.cc
+ * Copyright: 2019 Brad Love (Next Dimension Innovations) brad@nextdimension.cc
  * SPDX-License-Identifier:	GPL-3.0-or-later
 *//////////////////////////////////////////////////////////////////////////////
 
