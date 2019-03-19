@@ -333,7 +333,7 @@ int eeprom_validate(int do_update, unsigned char *eeprom_data, struct tveeprom *
 			bModelNotFound = 1;
 			break;
 		}	
-	} else if (vendor_ID == 02013) { // PCTV
+	} else if (vendor_ID == 0x2013) { // PCTV
 		switch (product_ID & 0x7fff) {
 		case 0x0265:
 			strcpy(sModelName, "PCTV 2920e (204009)");
