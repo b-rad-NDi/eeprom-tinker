@@ -47,9 +47,6 @@ int file_get_contents(const char *filename, char **result)
 int find_i2c_devs(const char* full_path)
 {
 	struct dirent **namelist;
-	char full_dev_path[256] = { 0 };
-	char query_path[256] = { 0 };
-	struct stat buf = { 0 };
 	int n, i;
 
 	n = scandir(full_path, &namelist, is_i2c_bus, versionsort);
@@ -66,6 +63,8 @@ int find_i2c_devs(const char* full_path)
 		}
 		free(namelist);
 	}
+
+	return -1;
 }
 
 const char* device_name(const char* vend, const char* prod)
@@ -152,7 +151,8 @@ int em28xx_device_detect()
 	char full_dev_path[256] = { 0 };
 	char vend_path[256] = { 0 };
 	char prod_path[256] = { 0 };
-	char *vend_id = NULL, *prod_id = NULL, dev_name = NULL;
+	char *vend_id = NULL, *prod_id = NULL;
+	const char *dev_name = NULL;
 	struct stat buf = { 0 };
 	int n, x, retval = 0;
 
