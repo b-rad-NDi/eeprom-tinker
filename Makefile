@@ -3,7 +3,7 @@ CFLAGS=$(CFLAGS)
 LDFLAGS=$(LDFLAGS)
 
 eeprom-tinker : eeprom-tinker.o linux-i2c.o eeprom-utils.o device-detection.o
-	$(CC) -g -o eeprom-tinker eeprom-tinker.o linux-i2c.o eeprom-utils.o device-detection.o -li2c -lusb-1.0
+	$(CC) -g -o eeprom-tinker eeprom-tinker.o linux-i2c.o eeprom-utils.o device-detection.o -li2c
 
 eeprom-utils.o : eeprom-utils.c linux-i2c.c
 	$(CC) -g -Wall -c eeprom-utils.c
