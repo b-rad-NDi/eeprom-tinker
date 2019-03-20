@@ -7,16 +7,10 @@
 
 #include <dirent.h>
 #include <ctype.h>
-#include <limits.h>
-#include <stdbool.h>
-#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/types.h>
 #include <sys/stat.h>
-#include <sys/ioctl.h>
-#include <unistd.h>
 
 
 int is_i2c_bus(const struct dirent* entry)
