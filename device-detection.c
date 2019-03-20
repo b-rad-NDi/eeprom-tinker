@@ -152,7 +152,7 @@ const char* device_name(const char* vend, const char* prod)
 	return "Device Unknown";
 }
 
-int main(void)
+int em28xx_device_detect()
 {
 	struct dirent **namelist;
 	char full_dev_path[256] = { 0 };
@@ -160,7 +160,7 @@ int main(void)
 	char prod_path[256] = { 0 };
 	char *vend_id = NULL, *prod_id = NULL, dev_name = NULL;
 	struct stat buf = { 0 };
-	int n, x;
+	int n, x, retval = 0;
 
 	n = scandir("/sys/bus/usb/drivers/em28xx/", &namelist, NULL, alphasort);
 	if (n < 0)
@@ -192,6 +192,7 @@ int main(void)
 				if (strncmp(dev_name, "Device Unknown", 14) != 0)
 					find_i2c_devs(full_dev_path);
 
+				retval++;
 				free(vend_id);
 				free(prod_id);
 			}
@@ -200,4 +201,6 @@ int main(void)
 		}
 		free(namelist);
 	}
+
+	return retval;
 }
