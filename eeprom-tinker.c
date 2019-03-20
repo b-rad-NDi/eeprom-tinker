@@ -73,7 +73,8 @@ int main (int argc, char **argv)
 	struct tveeprom eeprom_tv = { 0 };
 	char i2c_bus_string[128] = { 0 };
 	int hwconf_offset = 0, retval = 0, i2c_ret = 0;
-	int vflag = 0, iflag = 0, c = 0, mflag = 0, bulk_flag = 0, pid_flag = 0, testonly_flag = 0;
+	int vflag = 0, iflag = 0, c = 0, mflag = 0, bulk_flag = 0;
+	int pid_flag = 0, testonly_flag = 0, detect_flag = 0, num_found = 0;
 	unsigned long i2c_bus_no = ULONG_MAX; 
 	unsigned char pid_offset = 0, boardconf_offset = 0;
 
@@ -85,7 +86,7 @@ int main (int argc, char **argv)
 		return 1;
 	}
 
-	while ((c = getopt (argc, argv, "vithm:b:")) != -1) {
+	while ((c = getopt (argc, argv, "vithdm:b:")) != -1) {
 		switch (c)
 		{
 		case 'v':
@@ -123,6 +124,9 @@ int main (int argc, char **argv)
 		case 'h':
 			print_help();
 			return 1;
+		case 'd':
+			detect_flag = 1;
+			break;
 		case '?':
 			if (optopt == 'b')
 				fprintf (stderr, "Option -%c requires an argument.\n", optopt);
@@ -132,6 +136,14 @@ int main (int argc, char **argv)
 		default:
 			abort();
 		}
+	}
+
+	if (detect_flag) {
+		num_found = em28xx_device_detect();
+		printf("=========================================\n");
+		printf("%d em28xx devices found\n", num_found);
+		printf("=========================================\n");
+		return 0;
 	}
 
 	if (i2c_bus_no == ULONG_MAX) {
