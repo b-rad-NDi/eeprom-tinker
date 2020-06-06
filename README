@@ -86,7 +86,7 @@ Found tag 0x04 (serial)
 Found tag 0x06 (model/revision)
 
 vid:pid       2013:0461
-Board Config: 04  (bulk)
+Board Config: 00  (isoc)
 serial:       d6 42 01
 model:        00 03 0d 40  ( 200000 )
 revision:     89 8a 19
