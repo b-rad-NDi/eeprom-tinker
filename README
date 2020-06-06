@@ -1,5 +1,20 @@
 EEPROM Tinker by Brad Love (b-rad)
 
+A utility to allow converting various Hauppauge em28xx based devices from
+USB Isochronous transport mode to bulk transport mode.
+
+This dramatically reduces system load, by dramatically increasing the
+amount of bytes transferred in every USB URB. This is highly beneficial
+AND/OR required for a variety of embedded platforms (like RPi).
+
+This also works around very high bandwidth streams which are too high
+for ISOC transfers to keep up with. When the bandwidth is too high for ISOC
+you will experience loss of transport stream packets, leading to corrupted
+video, due to continuity errors and missing data.
+
+This utility should not be dangerous to use, AS LONG AS YOU USE IT SAFELY!
+
+
 =========================================
 
 EEPROM Tinker
