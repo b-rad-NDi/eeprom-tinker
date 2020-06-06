@@ -313,7 +313,7 @@ int eeprom_validate(int do_update, unsigned char *eeprom_data, struct tveeprom *
 			break;
 		case 0x0258:
 			strcpy(sModelName, "PCTV 461e");
-			bChangeAllowed = false;
+			bChangeAllowed = true;
 			break;
 		case 0x0259:
 		case 0x0461:
