@@ -19,6 +19,21 @@ eeprom-tinker options
 ===============================================================================
 ===============================================================================
 
+To compile:
+
+$ sudo apt-get install libi2c-dev
+
+$ make
+
+Note: you require libi2c-dev >= 4.0
+- This means Ubuntu Xenial LTS is incompatible, Bionic+ is ok
+
+If make reports you are missing i2c/smbus.h your library is too old.
+
+===============================================================================
+===============================================================================
+
+
 To use this dangerous utility follow these steps:
 
 	NOTE: you will require to run these commands via sudo
