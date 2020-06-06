@@ -134,6 +134,7 @@ const char* device_name(const char* vend, const char* prod)
 			return "PCTV 461e";
 			break;
 		case 0x0259:
+		case 0x0461:
 			return "PCTV 461e (3103B)";
 			break;
 		default:

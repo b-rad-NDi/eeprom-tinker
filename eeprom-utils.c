@@ -239,6 +239,10 @@ int eeprom_validate(int do_update, unsigned char *eeprom_data, struct tveeprom *
 		bIsDefBulk = true;
 		bPIDChangeAllowed = true;
 		break;
+	case 200000: // 461e B8H9 - 3103b demod
+		bIsDefBulk = false;
+		bPIDChangeAllowed = true;
+		break;
 	}
 
 	strcpy(sModelName, "Unknown Device, contact support");
@@ -312,6 +316,7 @@ int eeprom_validate(int do_update, unsigned char *eeprom_data, struct tveeprom *
 			bChangeAllowed = false;
 			break;
 		case 0x0259:
+		case 0x0461:
 			strcpy(sModelName, "PCTV 461e (3103B)");
 			bChangeAllowed = true;
 			break;
