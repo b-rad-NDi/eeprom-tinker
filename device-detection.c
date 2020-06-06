@@ -157,6 +157,8 @@ int em28xx_device_detect()
 	int n, x, retval = 0;
 
 	n = scandir("/sys/bus/usb/drivers/em28xx/", &namelist, NULL, alphasort);
+	chdir("/sys/bus/usb/drivers/em28xx/");
+
 	if (n < 0)
 		perror("scandir");
 	else {
