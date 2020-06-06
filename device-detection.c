@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
-
+#include <unistd.h>
 
 int is_i2c_bus(const struct dirent* entry)
 {
