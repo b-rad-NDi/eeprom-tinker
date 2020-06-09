@@ -94,7 +94,7 @@ revision:     89 8a 19
 Found: isoc mode PCTV 461e (3103B)  ( 200000 )
 
 Conversion to bulk mode possible: yes
-Convert device to new PID? possible
+Convert device to new PID? OK as is
 
 
 ===============================================================================
@@ -114,7 +114,7 @@ Found tag 0x06 (model/revision)
 Found: isoc mode PCTV 461e (3103B)  ( 200000 )
 
 Conversion to bulk mode possible: yes
-Convert device to new PID? possible
+Convert device to new PID? OK as is
 
 
 ############################################
@@ -175,7 +175,7 @@ revision:     89 8a 19
 Found: isoc mode PCTV 461e (3103B)  ( 200000 )
 
 Conversion to bulk mode possible: yes
-Convert device to new PID? possible
+Convert device to new PID? OK as is
 
 Device PCTV 461e (3103B) has already been converted to bulk mode
 
