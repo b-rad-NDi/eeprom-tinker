@@ -373,8 +373,10 @@ int eeprom_validate(int do_update, unsigned char *eeprom_data, struct tveeprom *
 				if (bIsCurBulk) {
 					tst_eeprom->product_ID[1] |= 0x80;
 					retval |= PID_MODIFICATION_POSSIBLE;
-				}
-			}
+				} else
+					printf("\nDevice %s must be converted to bulk mode first\n", sModelName);
+			} else if ((tst_eeprom->product_ID[1] & 0x80) == 0x80)
+				printf("\nDevice %s PID is already modified\n", sModelName);
 		}
 	} else {
 		printf("Device modification not allowed\n");
