@@ -92,9 +92,9 @@ model:        00 03 0d 40  ( 200000 )
 revision:     89 8a 19
 
 Found: isoc mode PCTV 461e (3103B)  ( 200000 )
+
 Conversion to bulk mode possible: yes
 Convert device to new PID? possible
-Change allowed
 
 
 ===============================================================================
@@ -114,13 +114,18 @@ Found tag 0x06 (model/revision)
 Found: isoc mode PCTV 461e (3103B)  ( 200000 )
 Conversion to bulk mode possible: yes
 Convert device to new PID? possible
-Change allowed
 
 
-Update Board Config:
-Equivalent operation:
-i2cset -y 14 0x50 0x00 0xa7 0x04 i
+############################################
+Update Board Config
 
+Equivalent operation for manual conversion:
+
+	i2cset -y 14 0x50 0x00 0xa7 0x04 i
+
+############################################
+
+Only execute the above commands if you are absolutely confident
 
 ===============================================================================
 ===============================================================================
@@ -137,6 +142,9 @@ convert the 461e from ISOC to bulk mode:
 
 $ sudo i2cset -y 14 0x50 0x00 0xa7 0x04 i
 
+
+DO NOT JUST EXECUTE THE ABOVE LINE WITHOUT VERIFYING
+IT'S CORRECTNESS USING ALL OF THE PREVIOUS STEPS!!!!
 
 ===============================================================================
 ===============================================================================
@@ -164,10 +172,11 @@ model:        00 03 0d 40  ( 200000 )
 revision:     89 8a 19
 
 Found: isoc mode PCTV 461e (3103B)  ( 200000 )
+
 Conversion to bulk mode possible: yes
 Convert device to new PID? possible
-Change allowed
 
+Device PCTV 461e (3103B) has already been converted to bulk mode
 
 =========================================
 
