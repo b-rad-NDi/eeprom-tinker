@@ -241,7 +241,7 @@ int eeprom_validate(int do_update, unsigned char *eeprom_data, struct tveeprom *
 		break;
 	case 200000: // 461e B8H9 - 3103b demod
 		bIsDefBulk = false;
-		bPIDChangeAllowed = true;
+		bPIDChangeAllowed = false;
 		break;
 	}
 
