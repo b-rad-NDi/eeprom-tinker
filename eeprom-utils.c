@@ -331,7 +331,7 @@ int eeprom_validate(int do_update, unsigned char *eeprom_data, struct tveeprom *
 
 //	printf("bIsDefBulk = %d   |   bIsOrigBulk = %d   |   bIsCurBulk = %d\n\n", bIsDefBulk, bIsOrigBulk, bIsCurBulk);
 
-	printf("\nFound: %s mode %s  ( %d )\n", bIsDefBulk ? "bulk" : "isoc",
+	printf("\nFound: %s mode %s  ( %d )\n\n", bIsDefBulk ? "bulk" : "isoc",
 		sModelName, eeprom_tv->model);
 
 	if (bModelNotFound) {
@@ -354,12 +354,13 @@ int eeprom_validate(int do_update, unsigned char *eeprom_data, struct tveeprom *
 	}
 
 	if (bChangeAllowed) {
-		printf("Change allowed\n");
 
 		if (!bIsOrigBulk && !bIsCurBulk) {
 			tst_eeprom->BoardConfigEx |= BOARD_CFG2_BULK_TS;
 			retval |= BULK_CONVERSION_POSSIBLE;
 			bIsCurBulk = true;
+		} else if (!bIsOrigBulk && bIsCurBulk) {
+			printf("\nDevice %s has already been converted to bulk mode\n", sModelName);
 		}
 
 		if (bPIDChangeAllowed) {

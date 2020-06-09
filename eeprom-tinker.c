@@ -76,7 +76,7 @@ int main (int argc, char **argv)
 	struct tveeprom eeprom_tv = { 0 };
 	char i2c_bus_string[128] = { 0 };
 	int hwconf_offset = 0, retval = 0, i2c_ret = 0;
-	int vflag = 0, iflag = 0, c = 0, mflag = 0, bulk_flag = 0;
+	int vflag = 0, iflag = 0, c = 0, mflag = 0, bulk_flag = 0, modded_flag = 0;
 	int pid_flag = 0, testonly_flag = 0, detect_flag = 0, num_found = 0;
 	unsigned long i2c_bus_no = ULONG_MAX; 
 	unsigned char pid_offset = 0, boardconf_offset = 0;
@@ -173,7 +173,7 @@ int main (int argc, char **argv)
 		if (mflag && retval > 0) {
 			if (bulk_flag && (retval & BULK_CONVERSION_POSSIBLE)) {
 				boardconf_offset = offsetof(struct em28xx_eeprom, BoardConfigEx);
-				printf("\n");
+				printf("############################################\n");
 				printf("Update Board Config%s", testonly_flag ? "\n" : ": ");
 				i2c_ret = eeprom_update(1, eeprom_tv.i2c_bus_no,
 						eeprom_tv.byte_offset_start + boardconf_offset,
@@ -183,16 +183,18 @@ int main (int argc, char **argv)
 						printf("OK\n");
 					else {
 						printf("ERROR\n");
+						printf("############################################\n");
 						return 1;
 					}
 				}
+				modded_flag = 1;
 			}
 
 			usleep(50 * 1000);
 
 			if (pid_flag && (retval & PID_MODIFICATION_POSSIBLE)) {
 				pid_offset = offsetof(struct em28xx_eeprom, product_ID[1]);
-				printf("\n");
+				printf("############################################\n");
 				printf("Update Product ID%s", testonly_flag ? "\n" : ": ");
 				i2c_ret = eeprom_update(1, eeprom_tv.i2c_bus_no,
 						eeprom_tv.byte_offset_start + pid_offset,
@@ -203,12 +205,15 @@ int main (int argc, char **argv)
 						printf("OK\n");
 					else {
 						printf("ERROR\n");
+						printf("############################################\n");
 						return 1;
 					}
 				}
+				modded_flag = 1;
 			}
+			printf("############################################\n");
 
-			if (testonly_flag)
+			if (testonly_flag && modded_flag)
 				printf("\nOnly execute the above commands if you are absolutely confident\n");
 		}
 	} else {
