@@ -156,6 +156,10 @@ int main (int argc, char **argv)
 
 	hwconf_offset = eeprom_check(vflag, i2c_bus_no, &eeprom_data[0]);
 
+	/**** Comment the line below to allow the eeprom-tinker to update the eeprom ****/
+	testonly_flag = 1;
+	/********************************************************************************/
+
 	if (hwconf_offset > 0) {
 		if (eeprom_decode(&eeprom_data[0], &eeprom_tv) != 0) {
 			printf("Eeprom decode failure, quitting...\n");
@@ -175,7 +179,7 @@ int main (int argc, char **argv)
 				boardconf_offset = offsetof(struct em28xx_eeprom, BoardConfigEx);
 				printf("############################################\n");
 				printf("Update Board Config%s", testonly_flag ? "\n" : ": ");
-				i2c_ret = eeprom_update(1, eeprom_tv.i2c_bus_no,
+				i2c_ret = eeprom_update(testonly_flag, eeprom_tv.i2c_bus_no,
 						eeprom_tv.byte_offset_start + boardconf_offset,
 						tst_eeprom->BoardConfigEx);
 				if (!testonly_flag) {
@@ -196,7 +200,7 @@ int main (int argc, char **argv)
 				pid_offset = offsetof(struct em28xx_eeprom, product_ID[1]);
 				printf("############################################\n");
 				printf("Update Product ID%s", testonly_flag ? "\n" : ": ");
-				i2c_ret = eeprom_update(1, eeprom_tv.i2c_bus_no,
+				i2c_ret = eeprom_update(testonly_flag, eeprom_tv.i2c_bus_no,
 						eeprom_tv.byte_offset_start + pid_offset,
 						tst_eeprom->product_ID[1]);
 
