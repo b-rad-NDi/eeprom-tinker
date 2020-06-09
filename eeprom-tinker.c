@@ -178,7 +178,7 @@ int main (int argc, char **argv)
 			if (bulk_flag && (retval & BULK_CONVERSION_POSSIBLE)) {
 				boardconf_offset = offsetof(struct em28xx_eeprom, BoardConfigEx);
 				printf("############################################\n");
-				printf("Update Board Config%s", testonly_flag ? "\n" : ": ");
+				printf("Update board config to bulk mode%s", testonly_flag ? "\n" : ": ");
 				i2c_ret = eeprom_update(testonly_flag, eeprom_tv.i2c_bus_no,
 						eeprom_tv.byte_offset_start + boardconf_offset,
 						tst_eeprom->BoardConfigEx);
