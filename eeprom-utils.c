@@ -100,8 +100,8 @@ int eeprom_update(unsigned int test_flag,
 	i2c_data[2] = w_value;
 
 	if (test_flag) {
-		printf("Equivalent operation:\n");
-		printf("i2cset -y %d 0x%02x 0x%02x 0x%02x 0x%02x i\n\n", bus_no,
+		printf("\nEquivalent operation for manual conversion:\n");
+		printf("\n\ti2cset -y %d 0x%02x 0x%02x 0x%02x 0x%02x i\n\n", bus_no,
 			i2c_addr, i2c_data[0], i2c_data[1], i2c_data[2]);
 	} else {
 		if (i2cset_impl(bus_no, i2c_addr, 3, i2c_data) != 0)
@@ -296,7 +296,7 @@ int eeprom_validate(int do_update, unsigned char *eeprom_data, struct tveeprom *
 		default:
 			bModelNotFound = 1;
 			break;
-		}	
+		}
 	} else if (vendor_ID == 0x2013) { // PCTV
 		switch (product_ID & 0x7fff) {
 		case 0x0265:

@@ -174,14 +174,18 @@ int main (int argc, char **argv)
 			if (bulk_flag && (retval & BULK_CONVERSION_POSSIBLE)) {
 				boardconf_offset = offsetof(struct em28xx_eeprom, BoardConfigEx);
 				printf("\n");
-				printf("Update Board Config:%s", testonly_flag ? "\n" : " ");
+				printf("Update Board Config%s", testonly_flag ? "\n" : ": ");
 				i2c_ret = eeprom_update(1, eeprom_tv.i2c_bus_no,
 						eeprom_tv.byte_offset_start + boardconf_offset,
 						tst_eeprom->BoardConfigEx);
-				if (!testonly_flag && i2c_ret == 0)
-					printf("OK\n");
-				else
-					return 1;
+				if (!testonly_flag) {
+					if (!i2c_ret)
+						printf("OK\n");
+					else {
+						printf("ERROR\n");
+						return 1;
+					}
+				}
 			}
 
 			usleep(50 * 1000);
@@ -189,15 +193,19 @@ int main (int argc, char **argv)
 			if (pid_flag && (retval & PID_MODIFICATION_POSSIBLE)) {
 				pid_offset = offsetof(struct em28xx_eeprom, product_ID[1]);
 				printf("\n");
-				printf("Update Product ID:%s", testonly_flag ? "\n" : " ");
+				printf("Update Product ID%s", testonly_flag ? "\n" : ": ");
 				i2c_ret = eeprom_update(1, eeprom_tv.i2c_bus_no,
 						eeprom_tv.byte_offset_start + pid_offset,
 						tst_eeprom->product_ID[1]);
 
-				if (!testonly_flag && i2c_ret == 0)
-					printf("OK\n");
-				else
-					return 1;
+				if (!testonly_flag) {
+					if (!i2c_ret)
+						printf("OK\n");
+					else {
+						printf("ERROR\n");
+						return 1;
+					}
+				}
 			}
 
 			if (testonly_flag)
