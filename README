@@ -112,6 +112,7 @@ Found tag 0x04 (serial)
 Found tag 0x06 (model/revision)
 
 Found: isoc mode PCTV 461e (3103B)  ( 200000 )
+
 Conversion to bulk mode possible: yes
 Convert device to new PID? possible
 
